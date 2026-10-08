@@ -1,0 +1,8 @@
+# Du lieu lon - KHONG dua len GitHub (tai tu Kaggle)
+data/
+*.csv
+*.zip
+# File tam / sao luu
+*.bak
+.ipynb_checkpoints/
+Screenshot*.png
