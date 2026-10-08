@@ -1,0 +1,100 @@
+# FIFA Big Data cluster: HDFS (1 NameNode + 3 DataNode) + Hive + Jupyter/PySpark
+# Chạy:  cd "D:\Big Data\docker"  ->  docker compose up -d
+
+services:
+  namenode:
+    image: bde2020/hadoop-namenode:2.0.0-hadoop2.7.4-java8
+    container_name: namenode
+    environment:
+      CLUSTER_NAME: fifa-cluster
+    env_file: ./hadoop-hive.env
+    volumes:
+      - namenode:/hadoop/dfs/name
+      - ../data:/data            # D:\Big Data\data  ->  /data trong container
+    ports:
+      - "50070:50070"            # HDFS Web UI
+
+  datanode1:
+    image: bde2020/hadoop-datanode:2.0.0-hadoop2.7.4-java8
+    container_name: datanode1
+    env_file: ./hadoop-hive.env
+    environment:
+      SERVICE_PRECONDITION: "namenode:50070"
+    volumes:
+      - datanode1:/hadoop/dfs/data
+    ports:
+      - "50075:50075"
+
+  datanode2:
+    image: bde2020/hadoop-datanode:2.0.0-hadoop2.7.4-java8
+    container_name: datanode2
+    env_file: ./hadoop-hive.env
+    environment:
+      SERVICE_PRECONDITION: "namenode:50070"
+    volumes:
+      - datanode2:/hadoop/dfs/data
+
+  datanode3:
+    image: bde2020/hadoop-datanode:2.0.0-hadoop2.7.4-java8
+    container_name: datanode3
+    env_file: ./hadoop-hive.env
+    environment:
+      SERVICE_PRECONDITION: "namenode:50070"
+    volumes:
+      - datanode3:/hadoop/dfs/data
+
+  datanode4:                   # Node du phong - chi bat khi demo mo rong cum
+    image: bde2020/hadoop-datanode:2.0.0-hadoop2.7.4-java8
+    container_name: datanode4
+    profiles: ["scale"]
+    env_file: ./hadoop-hive.env
+    environment:
+      SERVICE_PRECONDITION: "namenode:50070"
+    volumes:
+      - datanode4:/hadoop/dfs/data
+
+  hive-metastore-postgresql:
+    image: bde2020/hive-metastore-postgresql:2.3.0
+    container_name: hive-metastore-postgresql
+    volumes:
+      - metastore-db:/var/lib/postgresql/data
+
+  hive-metastore:
+    image: bde2020/hive:2.3.2-postgresql-metastore
+    container_name: hive-metastore
+    env_file: ./hadoop-hive.env
+    command: /opt/hive/bin/hive --service metastore
+    environment:
+      SERVICE_PRECONDITION: "namenode:50070 datanode1:50075 hive-metastore-postgresql:5432"
+    ports:
+      - "9083:9083"
+
+  hive-server:
+    image: bde2020/hive:2.3.2-postgresql-metastore
+    container_name: hive-server
+    env_file: ./hadoop-hive.env
+    environment:
+      HIVE_CORE_CONF_javax_jdo_option_ConnectionURL: "jdbc:postgresql://hive-metastore/metastore"
+      SERVICE_PRECONDITION: "hive-metastore:9083"
+    ports:
+      - "10000:10000"            # HiveServer2 (beeline / DBeaver)
+      - "10002:10002"            # HiveServer2 Web UI
+
+  jupyter:
+    image: jupyter/pyspark-notebook:spark-3.5.0
+    container_name: jupyter
+    environment:
+      JUPYTER_TOKEN: bigdata
+    volumes:
+      - ../notebooks:/home/jovyan/work
+    ports:
+      - "8889:8888"              # Jupyter (8889 de tranh Anaconda)
+      - "4040:4040"              # Spark UI
+
+volumes:
+  namenode:
+  datanode1:
+  datanode2:
+  datanode3:
+  datanode4:
+  metastore-db:
