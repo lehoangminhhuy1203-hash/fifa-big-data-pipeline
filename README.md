@@ -19,7 +19,7 @@ flowchart LR
 | ------------------------- | ------------------------------ | ------------------ |
 | 3 – Lưu trữ dữ liệu       | HDFS (3 DataNode, nhân bản ×3) | ✅ Hoàn thành      |
 | 4 – Xử lý dữ liệu         | Spark (PySpark), Hive          | ⏳ Đang làm        |
-| 5 – Truy vấn & phân tích  | Hive / Spark SQL               | 🎯 Mở rộng nếu kịp |
+
 
 ## 📊 Kết quả giai đoạn 3 (HDFS)
 
@@ -81,6 +81,6 @@ Cây thư mục trên HDFS (phân vùng theo chuẩn Hive):
 | Thành viên          | Vai trò                                          |
 | ------------------- | ------------------------------------------------ |
 | _Lê Hoàng Minh Huy_ | Hạ tầng Docker + HDFS (giai đoạn 3), trưởng nhóm |
-| _Vũ Minh Nhật_      | Spark ETL — dữ liệu cầu thủ                      |
 | _Lưu Thị Ngọc Hiếu_ | Spark ETL — bảng phụ, tối ưu & benchmark         |
 | _Lê Đoan Quỳnh_     | Hive, trực quan hóa, báo cáo                     |
+| _Vũ Minh Nhật_      | Tổng hợp báo cáo                                 |
