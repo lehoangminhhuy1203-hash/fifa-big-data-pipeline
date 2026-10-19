@@ -1,0 +1,5 @@
+thoi_diem,phep_do,nhan,replication,bytes,giay,MB_per_s
+10/19/26 2:38,write,ghi 1GB,1,1073741824,7.72,132.6
+10/19/26 2:38,write,ghi 1GB,3,1073741824,10.57,96.9
+10/19/26 3:34,write,ghi 1GB,1,1073741824,5.99,171
+10/19/26 3:34,write,ghi 1GB,3,1073741824,10.7,95.7

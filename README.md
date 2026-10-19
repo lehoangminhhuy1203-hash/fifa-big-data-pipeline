@@ -19,13 +19,18 @@ flowchart LR
 | ------------------------- | ------------------------------ | ------------------ |
 | 3 – Lưu trữ dữ liệu       | HDFS (3 DataNode, nhân bản ×3) | ✅ Hoàn thành      |
 | 4 – Xử lý dữ liệu         | Spark (PySpark), Hive          | ⏳ Đang làm        |
-
+| 5 – Truy vấn & phân tích  | Hive / Spark SQL               | 🎯 Mở rộng nếu kịp |
 
 ## 📊 Kết quả giai đoạn 3 (HDFS)
 
 - File `male_players.csv` (5,6 GB) được chia thành **42 block × 128 MB**, mỗi block **nhân bản 3 lần** trên 3 DataNode.
 - `hdfs fsck`: **HEALTHY** — 0 block thiếu bản sao, 0 block lỗi, replication trung bình **3.0**.
 - Demo chịu lỗi: tắt 1 DataNode → dữ liệu vẫn đọc đầy đủ (checksum không đổi); thêm node mới → HDFS tự nhân bản lại block bị thiếu.
+
+- **3V của Big Data:**
+  - **Volume:** 5,6 GB, 10 triệu bản ghi, 42 block × 3 bản sao.
+  - **Velocity:** đo tốc độ ghi/đọc HDFS (`scripts/demo-velocity.bat`), mô phỏng 9 đợt dữ liệu FIFA 15→23 đổ về và xử lý bằng Spark Structured Streaming (`notebooks/02_velocity_streaming.ipynb`).
+  - **Variety:** 3 loại thực thể × 2 giới tính, trường bán cấu trúc (danh sách, `"89+3"`, URL ảnh), so sánh CSV và Parquet (`notebooks/01_variety_parquet.ipynb`).
 
 > Ảnh minh chứng: xem thư mục [`docs/images`](docs/images).
 
@@ -59,8 +64,13 @@ flowchart LR
 │   ├── start-cluster.bat
 │   ├── stop-cluster.bat
 │   ├── upload-to-hdfs.bat
-│   └── demo-fault-tolerance.bat
-├── notebooks/                 # PySpark notebooks (giai đoạn 4)
+│   ├── demo-fault-tolerance.bat
+│   ├── demo-velocity.bat      # Velocity: đo tốc độ ghi/đọc HDFS (+ bench-io.sh)
+│   └── bench-io.sh
+├── notebooks/
+│   ├── 01_variety_parquet.ipynb     # Variety: 3 thực thể, trường bán cấu trúc, CSV vs Parquet
+│   ├── 02_velocity_streaming.ipynb  # Velocity: mô phỏng dữ liệu đổ về + Spark Streaming
+│   └── results/                     # Bảng số liệu và biểu đồ sinh ra từ notebook
 ├── docs/images/               # Ảnh minh chứng cho báo cáo
 └── data/raw/                  # Dữ liệu CSV (không đưa lên GitHub)
 ```
@@ -81,6 +91,6 @@ Cây thư mục trên HDFS (phân vùng theo chuẩn Hive):
 | Thành viên          | Vai trò                                          |
 | ------------------- | ------------------------------------------------ |
 | _Lê Hoàng Minh Huy_ | Hạ tầng Docker + HDFS (giai đoạn 3), trưởng nhóm |
+| _Vũ Minh Nhật_      | Spark ETL — dữ liệu cầu thủ                      |
 | _Lưu Thị Ngọc Hiếu_ | Spark ETL — bảng phụ, tối ưu & benchmark         |
 | _Lê Đoan Quỳnh_     | Hive, trực quan hóa, báo cáo                     |
-| _Vũ Minh Nhật_      | Tổng hợp báo cáo                                 |

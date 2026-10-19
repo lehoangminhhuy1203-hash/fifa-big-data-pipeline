@@ -1,0 +1,9 @@
+Câu_hỏi,định dạng,giây
+Q1 Đếm số bàn ghi,CSV,6.41
+Q1 Đếm số bàn ghi,Parquet,0.26
+Q2 TB overall theo bàn,CSV,16.22
+Q2 TB overall theo bàn,Parquet,0.47
+"Q3 FIFA 23, overall>=85",CSV,15.95
+"Q3 FIFA 23, overall>=85",Parquet,0.17
+Q4 Max mỗi cột số,CSV,24.51
+Q4 Max mỗi cột số,Parquet,5.46

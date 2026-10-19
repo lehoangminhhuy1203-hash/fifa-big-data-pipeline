@@ -6,3 +6,6 @@ data/
 *.bak
 .ipynb_checkpoints/
 Screenshot*.png
+# Ket qua do (CSV nho) van dua len GitHub
+!notebooks/results/*.csv
+!reports/**/*.csv
