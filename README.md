@@ -18,7 +18,7 @@ flowchart LR
 | Giai đoạn (khung môn học) | Công cụ                        | Trạng thái         |
 | ------------------------- | ------------------------------ | ------------------ |
 | 3 – Lưu trữ dữ liệu       | HDFS (3 DataNode, nhân bản ×3) | ✅ Hoàn thành      |
-| 4 – Xử lý dữ liệu         | Spark (PySpark), Hive          | ⏳ Đang làm        |
+| 4 – Xử lý dữ liệu         | Spark (PySpark), Hive          | ✅ Hoàn thành      |
 
 ## 📊 Kết quả giai đoạn 3 (HDFS)
 
